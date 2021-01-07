@@ -10,7 +10,7 @@ spring:
     show-sql: true
 #  messages:
 #    basename: i18n/messages
-
+##我看看还好不好使
 server:
   port: 8080
 
