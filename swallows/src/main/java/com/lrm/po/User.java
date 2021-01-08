@@ -1,39 +1,43 @@
 package com.lrm.po;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import com.lrm.po.Question;
 
 @Entity
 @Table(name = "t_user")
 public class User
 {
-    //每个类都要有一个id主键
     @Id
     @GeneratedValue
-    private Long id;
-
-    private Boolean admin;
+    private Long id;     //每个类都要有一个id主键
+    //用户个人属性
+    private Boolean admin;     //是否为管理员
+      //必填部分
+        //@NotBlank需要搭配有@Valid的controller方法使用 且只能用在String上
+    @NotBlank(message = "请输入昵称")
     private String nickname;
+    @NotBlank(message = "请输入账号")
     private String username;
+    @NotBlank(message = "请输入密码")
     private String password;
+      //非必填 可以在前端显示默认值
     private String avatar;
     private String email;
-
+    private String QQid;
+    private Integer donation;
+      //自动生成时间
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createTime;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updateTime;
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    private Date registerTime;
+    //关联关系 Merge Refresh Remove Persist
+        //mappedBy="name" name为外键所在的表中关联的字段的名字
+    @OneToMany(mappedBy = "user") //与问题无四项级联关系
+    private List<Question> questions = new ArrayList<>();
+    @OneToMany(mappedBy = "user") // 同上
+    private List<Comment> comment = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -83,22 +87,70 @@ public class User
         this.avatar = avatar;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
+    public String getQQid() {
+        return QQid;
     }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setQQid(String QQid) {
+        this.QQid = QQid;
     }
 
+    public Integer getDonation() {
+        return donation;
+    }
 
+    public void setDonation(Integer donation) {
+        this.donation = donation;
+    }
+
+    public Date getRegisterTime() {
+        return registerTime;
+    }
+
+    public void setRegisterTime(Date registerTime) {
+        this.registerTime = registerTime;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
+
+    public List<Comment> getComment() {
+        return comment;
+    }
+
+    public void setComment(List<Comment> comment) {
+        this.comment = comment;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", admin=" + admin +
+                ", nickname='" + nickname + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", email='" + email + '\'' +
+                ", QQid='" + QQid + '\'' +
+                ", donation=" + donation +
+                ", registerTime=" + registerTime +
+                ", questions=" + questions +
+                ", comment=" + comment +
+                '}';
+    }
 }
 
