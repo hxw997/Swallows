@@ -32,11 +32,15 @@ public class User
       //自动生成时间
     @Temporal(TemporalType.TIMESTAMP)
     private Date registerTime;
+
     //关联关系 Merge Refresh Remove Persist
         //mappedBy="name" name为外键所在的表中关联的字段的名字
-    @OneToMany(mappedBy = "user") //与问题无四项级联关系
+        //没必要设置Remove 因为不打算做注销账号功能
+    @OneToMany(mappedBy = "user")
     private List<Question> questions = new ArrayList<>();
-    @OneToMany(mappedBy = "user") // 同上
+
+    @OneToMany(mappedBy = "user")
+
     private List<Comment> comment = new ArrayList<>();
 
     public Long getId() {

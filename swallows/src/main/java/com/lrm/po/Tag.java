@@ -9,7 +9,7 @@ import java.util.List;
 //注解大多写在了User类
 
 @Entity
-@Table(name = "t_ag")
+@Table(name = "t_tag")
 public class Tag
 {
     @Id
@@ -45,5 +45,14 @@ public class Tag
 
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
+    }
+
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", questions=" + questions +
+                '}';
     }
 }
