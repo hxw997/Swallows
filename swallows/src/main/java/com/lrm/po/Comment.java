@@ -14,7 +14,7 @@ public class Comment
     @Id
     @GeneratedValue
     private Long id;
-    //如果标识为1 那么它可以删除它的子评论
+    //如果标识为1 即question.user是发布这个comment的人 那么它应该有一个标识
     private Boolean adminComment;
     @Lob
     @NotBlank
@@ -25,22 +25,15 @@ public class Comment
     @ManyToOne
     private Question question;
 
-    //删除父评论，子也无了
-    @OneToMany(mappedBy = "parentComment", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "parentComment")
     private List<Comment> replyComments = new ArrayList<>();
     @ManyToOne
     private Comment parentComment;
 
     @ManyToOne
-    private User user;
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+    private User receiveUser;
+    @ManyToOne
+    private User postUser;
 
     public Long getId() {
         return id;
@@ -98,6 +91,22 @@ public class Comment
         this.parentComment = parentComment;
     }
 
+    public User getReceiveUser() {
+        return receiveUser;
+    }
+
+    public void setReceiveUser(User receiveUser) {
+        this.receiveUser = receiveUser;
+    }
+
+    public User getPostUser() {
+        return postUser;
+    }
+
+    public void setPostUser(User postUser) {
+        this.postUser = postUser;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
@@ -108,6 +117,8 @@ public class Comment
                 ", question=" + question +
                 ", replyComments=" + replyComments +
                 ", parentComment=" + parentComment +
+                ", receiveUser=" + receiveUser +
+                ", postUser=" + postUser +
                 '}';
     }
 }

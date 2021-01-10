@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+//应用于懒加载 在Repository层要使用@EntityGrahph配置在查询方法上 缺一不可
+@NamedEntityGraph(name = "User",
+        attributeNodes = {@NamedAttributeNode("postComments"),
+                          @NamedAttributeNode("receiveComments")})
 @Entity
 @Table(name = "t_user")
 public class User
@@ -38,10 +42,12 @@ public class User
         //没必要设置Remove 因为不打算做注销账号功能
     @OneToMany(mappedBy = "user")
     private List<Question> questions = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-
-    private List<Comment> comment = new ArrayList<>();
+        //懒加载
+    @OneToMany(mappedBy = "postUser",fetch = FetchType.LAZY)
+    private List<Comment> postComments = new ArrayList<>();
+        //懒加载
+    @OneToMany(mappedBy = "receiveUser",fetch = FetchType.LAZY)
+    private List<Comment> receiveComments = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -131,12 +137,20 @@ public class User
         this.questions = questions;
     }
 
-    public List<Comment> getComment() {
-        return comment;
+    public List<Comment> getPostComments() {
+        return postComments;
     }
 
-    public void setComment(List<Comment> comment) {
-        this.comment = comment;
+    public void setPostComments(List<Comment> postComments) {
+        this.postComments = postComments;
+    }
+
+    public List<Comment> getReceiveComments() {
+        return receiveComments;
+    }
+
+    public void setReceiveComments(List<Comment> receiveComments) {
+        this.receiveComments = receiveComments;
     }
 
     @Override
@@ -153,7 +167,8 @@ public class User
                 ", donation=" + donation +
                 ", registerTime=" + registerTime +
                 ", questions=" + questions +
-                ", comment=" + comment +
+                ", postComments=" + postComments +
+                ", receiveComments=" + receiveComments +
                 '}';
     }
 }

@@ -8,6 +8,8 @@ import java.util.List;
 
 //注解大多写在了User类
 
+@NamedEntityGraph(name = "Tag",
+        attributeNodes = {@NamedAttributeNode("questions")})
 @Entity
 @Table(name = "t_tag")
 public class Tag
@@ -20,7 +22,7 @@ public class Tag
     private String name;
 
     //不用级联删除 这块需要返回错误页面 告知管理员标签下有博客的情况下不能删除标签
-    @ManyToMany(mappedBy = "tags")
+    @ManyToMany(mappedBy = "tags",fetch = FetchType.LAZY)
     private List<Question> questions = new ArrayList<>();
 
     public Long getId() {
