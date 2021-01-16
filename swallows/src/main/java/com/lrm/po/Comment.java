@@ -16,9 +16,12 @@ public class Comment
     private Long id;
     //如果标识为1 即question.user是发布这个comment的人 那么它应该有一个标识
     private Boolean adminComment;
+    private Boolean isRead;
+
     @Lob
     @NotBlank
     private String content;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
 
@@ -29,6 +32,9 @@ public class Comment
     private List<Comment> replyComments = new ArrayList<>();
     @ManyToOne
     private Comment parentComment;
+
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
+    private List<Likes> likes;
 
     @ManyToOne
     private User receiveUser;
@@ -49,6 +55,14 @@ public class Comment
 
     public void setAdminComment(Boolean adminComment) {
         this.adminComment = adminComment;
+    }
+
+    public Boolean getRead() {
+        return isRead;
+    }
+
+    public void setRead(Boolean read) {
+        isRead = read;
     }
 
     public String getContent() {
@@ -107,16 +121,26 @@ public class Comment
         this.postUser = postUser;
     }
 
+    public List<Likes> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<Likes> likes) {
+        this.likes = likes;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
                 "id=" + id +
                 ", adminComment=" + adminComment +
+                ", isRead=" + isRead +
                 ", content='" + content + '\'' +
                 ", createTime=" + createTime +
                 ", question=" + question +
                 ", replyComments=" + replyComments +
                 ", parentComment=" + parentComment +
+                ", likes=" + likes +
                 ", receiveUser=" + receiveUser +
                 ", postUser=" + postUser +
                 '}';

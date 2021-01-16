@@ -25,8 +25,6 @@ public class Question
     private String title;
 
     private Integer view;
-    private Integer likes;
-    private Integer dislikes;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
@@ -37,6 +35,9 @@ public class Question
 
     @ManyToOne
     private User user;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    private List<Likes> likes;
 
     //允许级联删除 删除问题即删除所有评论
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
@@ -82,22 +83,6 @@ public class Question
         this.view = view;
     }
 
-    public Integer getLikes() {
-        return likes;
-    }
-
-    public void setLike(Integer likes) {
-        this.likes = likes;
-    }
-
-    public Integer getDislikes() {
-        return dislikes;
-    }
-
-    public void setDislikes(Integer dislikes) {
-        this.dislikes = dislikes;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -130,6 +115,14 @@ public class Question
         this.comments = comments;
     }
 
+    public List<Likes> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<Likes> likes) {
+        this.likes = likes;
+    }
+
     @Override
     public String toString() {
         return "Question{" +
@@ -138,11 +131,10 @@ public class Question
                 ", description='" + description + '\'' +
                 ", title='" + title + '\'' +
                 ", view=" + view +
-                ", like=" + likes +
-                ", dislike=" + dislikes +
                 ", createTime=" + createTime +
                 ", tags=" + tags +
                 ", user=" + user +
+                ", likes=" + likes +
                 ", comments=" + comments +
                 '}';
     }

@@ -48,6 +48,12 @@ public class User
         //懒加载
     @OneToMany(mappedBy = "receiveUser",fetch = FetchType.LAZY)
     private List<Comment> receiveComments = new ArrayList<>();
+        //懒加载
+    @OneToMany(mappedBy = "postUser",fetch = FetchType.LAZY)
+    private List<Likes> postLikes = new ArrayList<>();
+        //懒加载
+    @OneToMany(mappedBy = "receiveUser",fetch = FetchType.LAZY)
+    private List<Comment> receiveLikes = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -153,6 +159,22 @@ public class User
         this.receiveComments = receiveComments;
     }
 
+    public List<Likes> getPostLikes() {
+        return postLikes;
+    }
+
+    public void setPostLikes(List<Likes> postLikes) {
+        this.postLikes = postLikes;
+    }
+
+    public List<Comment> getReceiveLikes() {
+        return receiveLikes;
+    }
+
+    public void setReceiveLikes(List<Comment> receiveLikes) {
+        this.receiveLikes = receiveLikes;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -169,6 +191,8 @@ public class User
                 ", questions=" + questions +
                 ", postComments=" + postComments +
                 ", receiveComments=" + receiveComments +
+                ", postLikes=" + postLikes +
+                ", receiveLikes=" + receiveLikes +
                 '}';
     }
 }
